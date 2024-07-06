@@ -1,11 +1,13 @@
 from hydrogram import Client, filters
 from hydrogram.types import Message
+from hydrogram.errors import UserIsBlocked, FloodWait
+import asyncio
 from os import remove
 import redis
 from profile import generate_profile
 from texts import *
 
-app = Client('Pezeshkian',183086, 'c5935ca70c878eefb4aae688cd4446d8', bot_token='6916186168:AAGT34stiUSA4HzMHFoK2tGFmO4_HD-oVeM')
+app = Client('Pezeshkian',183086, 'c5935ca70c878eefb4aae688cd4446d8', bot_token='6893003046:AAFhHG6rXaUVpJNbOc0X-fi9CjGhD7B8ki8')
 r = redis.Redis(host='localhost', port=6379, db=1, decode_responses=True)
 
 
@@ -52,6 +54,29 @@ async def create_profile(bot:Client, message:Message):
         else:
             await app.send_message(message.from_user.id, just_one_photo)
             
+
+@app.on_message(filters.user(439282116) & filters.text , group=1)
+async def sudo_commands(bot:Client, message:Message):
+        users = r.lrange('users', 0, -1)
+        
+        if message.text == 'stats':
+            await message.reply(f'users : {len(users)}')
+            
+        elif message.text == 'forward' and message.reply:
+            is_ok = []
+            not_ok = []
+            for user in users:
+                try:
+                    await bot.forward_messages(int(user), 439282116, message.reply_to_message.id) 
+                    is_ok.append(user) 
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                except UserIsBlocked:
+                    r.lrem('users', 1, f'{user}')
+                    not_ok.append(user)
+            await message.reply(f'all users : {len(users)}\nsent ok : {len(is_ok)}\nnot sent : {len(not_ok)}')
+                        
+                
 
     
     

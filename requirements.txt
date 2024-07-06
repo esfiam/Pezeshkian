@@ -1,0 +1,10 @@
+aiosqlite==0.20.0
+async-timeout==4.0.3
+Hydrogram==0.1.4
+numpy==1.26.4
+opencv-python==4.10.0.82
+pillow==10.3.0
+pyaes==1.6.1
+PySocks==1.7.1
+redis==5.0.6
+typing_extensions==4.12.2
