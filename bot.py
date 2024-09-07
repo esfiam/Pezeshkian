@@ -7,7 +7,7 @@ import redis
 from profile import generate_profile
 from texts import *
 
-app = Client('Pezeshkian',183086, 'c5935ca70c878eefb4aae688cd4446d8', bot_token='6893003046:AAFhHG6rXaUVpJNbOc0X-fi9CjGhD7B8ki8')
+app = Client('Pezeshkian',183086, 'c5935ca70c878eefb4aae688cd4446d8', bot_token='6893003046:AAFhHG6rdffXaUVpJNbOc0Xf-fi9CjGhD7B8ki8')
 r = redis.Redis(host='localhost', port=6379, db=1, decode_responses=True)
 
 
